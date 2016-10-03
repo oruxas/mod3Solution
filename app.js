@@ -14,6 +14,7 @@
             }).then(function (result) {
             // process result and only keep items that match
             var data;
+            console.log(result.data);
             // for(data in result.data){
 
             // }
