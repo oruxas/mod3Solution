@@ -65,7 +65,7 @@
          service.getMatchedMenuItems = function (searchTerm) { //input searchTerms
              return $http({
                  method: "GET",
-                 url: "https://davids-restaurant.herokuapp.com/menu_items.json"
+                 url: "http://davids-restaurant.herokuapp.com/menu_items.json"
              }).then(function(result){
                 
                  //alert(JSON.stringify(result));
