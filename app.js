@@ -9,7 +9,7 @@
 
     function FoundItemsDirective(){
         var ddo = {                         //directive definition object
-            template: '<div> <ul data-ng-model="narrowit.found"> <li ng-repeat="item in foundItems"> {{item.name}} {{item.short_name}} {{item.description}}  <button>Dont want this one</button></li> </ul></div>',
+            template: '<div> <ul data-ng-model="narrowit.found"> <li ng-repeat="item in foundItems"> {{item.name}} ({{item.short_name}}) {{item.description}}  <button>Dont want this one</button></li> </ul></div>',
             restrict: 'E',
             scope: {
                 foundItems: "<",
