@@ -9,18 +9,32 @@
 
     function FoundItemsDirective(){
         var ddo = {                         //directive definition object
-            template: '<div> <ul ng-model="narrowit.found"> <li ng-repeat="item in narrowit.found">{{item.name}}</li> </ul></div>',
-            restrict: 'E'
-           
+            template: '<div> <ul data-ng-model="narrowit.found"> <li ng-repeat="item in foundItems"> {{item.name}} </li> </ul></div>',
+            restrict: 'E',
+            scope: {
+                foundItems: "<",
+                //onRemove: "="
+            }      
         };
         return ddo;
     }
+
+    // function FoundItemsDirectiveController($scope){
+    //     var list = this;
+
+    //      list.removeItem = function(){
+    //          var index = $scope.found.indexOf(item);
+    //         $scope.found.splice(index,1);
+    //      }   
+        
+    // }
 
     NarrowItDownController.$inject = ['$scope','MenuSearchService']
 
     function NarrowItDownController($scope, MenuSearchService) {
        var narrowit = this;
-       var tempArr = [];
+       var tempArr = [];     
+
        narrowit.getlist = function(searctTerm){
            // alert(narrowit.searchTerm);
 
@@ -30,7 +44,7 @@
                  for (var i = 0; i < result.length; i++){
                      tempArr.push(result[i]);
                  }
-                 console.log(tempArr);
+                // console.log(tempArr);
                  narrowit.found = tempArr;
             }); 
 
