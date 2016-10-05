@@ -13,11 +13,13 @@
             restrict: 'E',
             scope: {
                 foundItems: "<",
-                //onRemove: "="
-            }      
+                onRemove: "="
+            }  
         };
         return ddo;
     }
+
+    
 
     // function FoundItemsDirectiveController($scope){
     //     var list = this;
@@ -46,11 +48,12 @@
                  }
                 // console.log(tempArr);
                  narrowit.found = tempArr;
-            }); 
-
-           
-            
+            });     
         }
+
+        // narrowit.removeItem = function(itemIndex){
+        //     foundItems.removeItem(itemIndex);
+        // }
         
       
     }
@@ -90,5 +93,10 @@
              });
              
          };
+
+         service.removeItem = function(itemIndex) {
+             foundItems.splice(itemIndex, 1);
+         }
+
      }  
 }());
