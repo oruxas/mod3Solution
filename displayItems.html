@@ -1,0 +1,6 @@
+<div> 
+    <ul data-ng-model="narrowit.found"> 
+        <li ng-repeat="item in foundItems"> {{item.name}} ({{item.short_name}}) {{item.description}}  
+            <button ng-click="narrowit.onRemove({index: $index});">Dont want this one</button></li> 
+    </ul>
+</div>
