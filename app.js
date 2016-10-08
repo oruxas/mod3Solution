@@ -9,88 +9,69 @@
 
     function FoundItemsDirective(){
         var ddo = {                         //directive definition object
-            templateUrl: '',
+            template: '<div> <ul data-ng-model="narrowit.found"> <li ng-repeat="item in narrowit.items"> {{item.name}} ({{item.short_name}}) {{item.description}}  <button ng-click="narrowit.onRemove({index: $index})">Dont want this one</button></li> </ul></div>',
             restrict: 'E',
             scope: {
-                foundItems: "<",
+                items: "<",
                 onRemove: "&"
-            }  
+            },
+            controller: NarrowItDownController,
+            controllerAs: 'narrowit',
+            bindToController: true,
         };
         return ddo;
     }
 
-    
+    NarrowItDownController.$inject = ['$scope','MenuSearchService']
 
-    // function FoundItemsDirectiveController($scope){
-    //     var list = this;
-
-    //      list.removeItem = function(){
-    //          var index = $scope.found.indexOf(item);
-    //         $scope.found.splice(index,1);
-    //      }   
-        
-    // }
-
-    NarrowItDownController.$inject = ['MenuSearchService']
-
-    function NarrowItDownController(MenuSearchService) {
+    function NarrowItDownController($scope, MenuSearchService) {
        var narrowit = this;    
-       var menuSearch = MenuSearchFactory();
-
+       var found=[];
        narrowit.getlist = function(searctTerm){
+
              MenuSearchService.getMatchedMenuItems(narrowit.searchTerm).then(function(result){
                 // console.log(Object.getOwnPropertyNames(result));
 
                 narrowit.found = result;
                 console.log(narrowit.found);
-                 
-            });     
-        }   
 
+             }); 
+                        
+        }; //end of getList
         narrowit.removeItem = function (itemIndex) {
-            alert('clicked');
-            //console.log("'this' is: ", this);
-            //this.lastRemoved = "Last item removed was " + this.foundItems[itemIndex].name;
-            MenuSearchService.removeItem(itemIndex);
-           // this.title = origTitle + " (" + list.items.length + " items )";
-        };
-
+                    //console.log(itemIndex);
+                  
+                    narrowit.found.splice(itemIndex,1);
+                   
+                };  
     };
 
      MenuSearchService.$inject = ['$http'];
      function MenuSearchService($http){
          var service = this;
-         var foundItems = [];
-
+        var foundItems = [];
          service.getMatchedMenuItems = function (searchTerm) { //input searchTerms
              return $http({
                  method: "GET",
                  url: "https://davids-restaurant.herokuapp.com/menu_items.json"
              }).then(function(result){
-
+                
+                 //alert(JSON.stringify(result));
+                
+                 
                  for (var i = 0; i < result.data.menu_items.length; i++) {
                     var description = result.data.menu_items[i].description;
                     if (description.indexOf(searchTerm) !== -1) {
                         foundItems.push(result.data.menu_items[i]);
                     }
                     }
+
+ 
                 return foundItems;
-                  //return foundItems
+                  
              });
              
          };
 
-           service.removeItem = function (itemIndex) {
-                    foundItems.splice(itemIndex, 1);
-                };
-     } ; 
-
-    function MenuSearchFactory() {
-    var factory = function () {
-        return new MenuSearchService();
-    };
-
-    return factory;
-    }
-
+     }  
 }());
